@@ -1,6 +1,7 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import LoginScreen from './src/screens/LoginScreen';
+import StackNavigator from './src/navigation/StackNavigator';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,7 +20,9 @@ export default function App() {
   }
 
   return (
-    <LoginScreen />
+    <NavigationContainer>
+      <StackNavigator />
+    </NavigationContainer>
   );
 };
 
