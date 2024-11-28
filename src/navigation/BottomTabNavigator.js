@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from '@expo/vector-icons/Ionicons'
 
@@ -7,6 +7,8 @@ import { colors } from "../../styles/global";
 import MapScreen from "../screens/MapScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import LogoutButton from "../components/LogoutButton";
+import BackButton from "../components/BackButton";
+import CreatePostNavigator from "./CreatePostNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,8 +20,10 @@ const BottomTabNavigator = () => {
         tabBarLabel: "",
         tabBarStyle: {
           display: "flex",
-          paddingVertical: 16,
         },
+        tabBarItemStyle: {
+          paddingTop: 12,
+        }
       })}
     >
       <Tab.Screen
@@ -33,6 +37,30 @@ const BottomTabNavigator = () => {
               size={32}
               color={focused ? colors.orange : "black"}
             />
+          ),
+        })}
+      />
+
+      <Tab.Screen
+        name="CreatePostStack"
+        component={CreatePostNavigator}
+        options={({ navigation }) => ({
+          title: "Create Post",
+          headerShown: false,
+          tabBarStyle: { display: "none" },
+          headerLeft: () => (
+            <BackButton
+              onPress={() => navigation.goBack()}
+            />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.addButton}>
+              <Ionicons
+                size={32}
+                name="add"
+                color={colors.white}
+              />
+            </View>
           ),
         })}
       />
