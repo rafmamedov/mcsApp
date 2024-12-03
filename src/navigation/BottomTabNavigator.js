@@ -9,10 +9,14 @@ import ProfileScreen from "../screens/ProfileScreen";
 import LogoutButton from "../components/LogoutButton";
 import BackButton from "../components/BackButton";
 import CreatePostNavigator from "./CreatePostNavigator";
+import { logoutDB } from "../utils/auth";
+import { useDispatch } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  const dispatch = useDispatch();
+
   return (
     <Tab.Navigator
       initialRouteName="Profile"
@@ -70,9 +74,10 @@ const BottomTabNavigator = () => {
         component={ProfileScreen}
         options={({ navigation }) => ({
           title: "Profile",
+          headerRightContainerStyle: { paddingRight: 16 },
           headerRight: () => (
             <LogoutButton
-              onPress={() => console.log('log out')}
+              onPress={() => logoutDB(dispatch)}
             />
           ),
           tabBarIcon: ({ focused }) => (

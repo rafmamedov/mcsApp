@@ -1,7 +1,12 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import StackNavigator from './src/navigation/StackNavigator';
+import { Provider, useDispatch } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import store from './src/redux/store/store';
+import { useEffect } from 'react';
+import { authStateChanged } from './src/utils/auth';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,6 +23,25 @@ export default function App() {
       </View>
     );
   }
+
+  return (
+    <Provider store={store.store}>
+      <PersistGate
+        loading={<Text>Loading...</Text>}
+        persistor={store.persistor}
+      >
+        <AuthListener />
+      </PersistGate>
+    </Provider>
+  );
+}
+
+const AuthListener = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    authStateChanged(dispatch);
+  }, [dispatch]);
 
   return (
     <NavigationContainer>

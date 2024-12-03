@@ -15,6 +15,7 @@ import {
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { colors } from "../../styles/global";
+import { registerDB } from "../utils/auth";
 
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
@@ -53,7 +54,7 @@ const SignupScreen = ({ navigation, route }) => {
 
   const onSignUp = () => {
     console.log('Sign up!');
-    // registerDB({ email, password })
+    registerDB({ email, password })
   };
   
   const showButton = (

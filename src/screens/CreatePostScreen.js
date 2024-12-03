@@ -9,15 +9,18 @@ import { colors } from "../../styles/global";
 
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { useSelector } from "react-redux";
+import { addPost, getImageUrl, uploadImage } from "../utils/firestore";
 
-const PLACES_KEY = "AIzaSyAhxqfyeRiiSj3Os9KyN3TcVFCxk6hQqh0";
-// const PLACES_KEY = "AIzaSyAvJDWtM_VcydTMMfufgfpNwyOQDuF-_gc";
+const PLACES_KEY = "YOUR API KEY";
 
 const CreatePostScreen = ({ navigation, route }) => {
   const params = route?.params;
   const [selectedImage, setSelectedImage] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState(null);
   const [title, setTitle] = useState('');
   const [address, setAddress] = useState('');
+  const user = useSelector((state) => state.user.userInfo);
 
   const navigateToCameraScreen = () => {
     navigation.navigate('Camera');
@@ -31,20 +34,31 @@ const CreatePostScreen = ({ navigation, route }) => {
     }
   
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: "images",
+      mediaTypes: 'images',
       allowsEditing: false,
       quality: 1,
     });
-  
+
     if (!result.canceled) {
       const uri = result.assets[0].uri;
-
+      
       setSelectedImage(uri);
+  
+      const response = await fetch(uri);
+      const file = await response.blob();
+      const fileName = uri.split('/').pop(); // Отримуємо ім'я файлу з URI
+
+      const fileType = file.type; // Отримуємо тип файлу
+      const imageFile = new File([file], fileName, { type: fileType });
+
+      const uploadedImage = await uploadImage(user.uid, imageFile, fileName);
+      setUploadedImage(uploadedImage)
     }
   };
 
   const onClearData = () => {
     setSelectedImage('');
+    setUploadedImage('');
     setTitle('')
     setAddress('');
   }
@@ -59,7 +73,11 @@ const CreatePostScreen = ({ navigation, route }) => {
     if (!user) return;
 
     try {
-      
+      await addPost(user?.uid, {
+        id: Date.now().toString(),
+        address,
+        image: uploadedImage,
+      })      
     } catch (error) {
       console.log(error)
     }

@@ -5,9 +5,12 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { colors } from "../../styles/global";
 
 import Input from "../components/Input";
+import { updateUserInFirestore } from "../utils/firestore";
+import { useSelector } from "react-redux";
 
 const ProfileScreen = () => {
   const [userName, setUserName] = useState('')
+  const user = useSelector((state) => state.user.userInfo);
 
   const handleImageUpload = async (userId, file, fileName) => {
 
@@ -19,7 +22,7 @@ const ProfileScreen = () => {
 
   const onUserNameChange = async () => {
     try {
-
+      await updateUserInFirestore(user.uid, { displayName: userName })
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +32,7 @@ const ProfileScreen = () => {
     <View style={styles.section}>
     <View style={styles.infoContainer}>
       <Text style={styles.title}>Name:</Text>
-      <Text>Anonim</Text>
+      <Text>{user?.displayName || 'anonim'}</Text>
     </View>
 
     <Input
