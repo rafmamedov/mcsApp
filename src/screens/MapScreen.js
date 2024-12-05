@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, Text, Alert } from "react-native";
+import { View, StyleSheet, Dimensions, Alert } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from 'expo-location';
-
-const MAPS_KEY = "AIzaSyAvJDWtM_VcydTMMfufgfpNwyOQDuF-_gc";
 
 const MapScreen = ({ navigation, route }) => {
   const [location, setLocation] = useState(null);
@@ -25,6 +23,7 @@ const MapScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <MapView
+        provider={PROVIDER_GOOGLE}
         style={styles.mapStyle}
         region={{
           latitude: 37.78825,

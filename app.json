@@ -15,6 +15,19 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.rafmountainsnow.mcsApp",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "location",
+          "fetch",
+          "remote-notification"
+        ],
+        "NSLocationWhenInUseUsageDescription": "This app requires access to your location when open.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires access to your location even when closed.",
+        "NSLocationAlwaysUsageDescription": "This app requires access to your location when open.",
+        "NSCameraUsageDescription": "This app requires access to your camera when open.",
+        "NSMediaLibraryUsageDescription": "This app requires access to your camera when open.",
+        "deploymentTarget": "14"
+      },
       "config": {
         "googleMapsApiKey": "AIzaSyAvJDWtM_VcydTMMfufgfpNwyOQDuF-_gc"
       }
@@ -23,6 +36,14 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.rafmountainsnow.mcsApp",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBjX-Tbb-2mHBbfc0C62VA8I0en6HGCFr4"
       }
     },
     "web": {
@@ -37,6 +58,11 @@
           "recordAudioAndroid": true
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "47434528-b958-482a-bf41-a5e3150a8944"
+      }
+    }
   }
 }

@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <Group
-      location = "group:../node_modules/react-native-maps/ios/AirGoogleMaps"
-      name = "AirGoogleMaps">
-      <Group
-         location = "group:Resources"
-         name = "Resources">
-      </Group>
-   </Group>
-   <Group
-      location = "group:../node_modules/react-native-maps/ios/AirMaps"
-      name = "AirMaps">
-      <Group
-         location = "group:Callout"
-         name = "Callout">
-      </Group>
-   </Group>
    <FileRef
       location = "group:mcsApp.xcodeproj">
    </FileRef>

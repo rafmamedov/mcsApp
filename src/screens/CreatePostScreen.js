@@ -10,9 +10,9 @@ import { colors } from "../../styles/global";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useSelector } from "react-redux";
-import { addPost, getImageUrl, uploadImage } from "../utils/firestore";
+import { addPost, uploadImage } from "../utils/firestore";
 
-const PLACES_KEY = "YOUR API KEY";
+const PLACES_KEY = "<API_KEY>";
 
 const CreatePostScreen = ({ navigation, route }) => {
   const params = route?.params;
@@ -47,10 +47,8 @@ const CreatePostScreen = ({ navigation, route }) => {
       const response = await fetch(uri);
       const file = await response.blob();
       const fileName = uri.split('/').pop(); // Отримуємо ім'я файлу з URI
-
       const fileType = file.type; // Отримуємо тип файлу
       const imageFile = new File([file], fileName, { type: fileType });
-
       const uploadedImage = await uploadImage(user.uid, imageFile, fileName);
       setUploadedImage(uploadedImage)
     }

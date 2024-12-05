@@ -35,6 +35,19 @@ export const getUser = async (userId) => {
   }
 };
 
+export const getPosts = async (userId) => {
+  const docRef = doc(db, 'posts', userId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log('User data:', docSnap.data());
+    return docSnap.data();
+  } else {
+    console.log('No such document!');
+    return null;
+  }
+}
+
 // Функція для запису даних користувача у Firestore
 export const updateUserInFirestore = async (uid, data) => {
   try {
