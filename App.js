@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import store from './src/redux/store/store';
 import { useEffect } from 'react';
 import { authStateChanged } from './src/utils/auth';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,6 +31,7 @@ export default function App() {
         loading={<Text>Loading...</Text>}
         persistor={store.persistor}
       >
+        <StatusBar backgroundColor="transparent" />
         <AuthListener />
       </PersistGate>
     </Provider>
