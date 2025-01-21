@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import {
   Text,
   View,
@@ -24,16 +24,11 @@ const SignupScreen = ({ navigation, route }) => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const [isConfirmVisible, setIsConfirmVisible] = useState(true);
-  const [selectedInput, setSelelectedInput] = useState('password');
+  const params = route?.params;
 
   const handleEmailChange = (value) => {
     setEmail(value);
   };
-
-  useLayoutEffect(() => {
-    navigation.setOptions({ title: "Hello world!" })
-  }, []);
 
   const handlePasswordChange = (value, isPassword) => {
     if (isPassword) {
@@ -43,12 +38,8 @@ const SignupScreen = ({ navigation, route }) => {
     }
   };
 
-  const showPassword = (isPassword) => {
-    if (isPassword) {
-      setIsPasswordVisible(prev => !prev);
-    } else {
-      setIsConfirmVisible(prev => !prev)
-    }
+  const showPassword = () => {
+    setIsPasswordVisible(prev => !prev);
   };
 
   const onSignUp = () => {
@@ -57,9 +48,7 @@ const SignupScreen = ({ navigation, route }) => {
   };
   
   const showButton = (
-    <TouchableOpacity
-      onPress={() => showPassword(selectedInput)}
-    >
+    <TouchableOpacity onPress={showPassword}>
       <Text style={[styles.baseText, styles.passwordButtonText]}>
         Показати
       </Text>
@@ -94,27 +83,23 @@ const SignupScreen = ({ navigation, route }) => {
                 onTextChange={handleEmailChange}
               />
 
-              <Pressable onPress={() => setSelelectedInput('password')}>
-                <Input
-                  value={password}
-                  placeholder="Пароль"
-                  rightButton={showButton}
-                  outerStyles={styles.passwordButton}
-                  onTextChange={(value) => handlePasswordChange(value, true)}
-                  secureTextEntry={isPasswordVisible}
-                />
-              </Pressable>
+              <Input
+                value={password}
+                placeholder="Пароль"
+                rightButton={showButton}
+                outerStyles={styles.passwordButton}
+                onTextChange={(value) => handlePasswordChange(value, true)}
+                secureTextEntry={isPasswordVisible}
+              />
 
-              <Pressable onPress={() => setSelelectedInput('confirm')}>
-                <Input
-                  value={passwordConfirm}
-                  placeholder="Пароль ще раз"
-                  rightButton={showButton}
-                  outerStyles={styles.passwordButton}
-                  onTextChange={(value) => handlePasswordChange(value, false)}
-                  secureTextEntry={isConfirmVisible}
-                />
-              </Pressable>
+              <Input
+                value={passwordConfirm}
+                placeholder="Пароль ще раз"
+                rightButton={showButton}
+                outerStyles={styles.passwordButton}
+                onTextChange={(value) => handlePasswordChange(value, false)}
+                secureTextEntry={isPasswordVisible}
+              />
             </View>
 
             <View style={[styles.innerContainer, styles.buttonContainer]}>

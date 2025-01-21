@@ -13,12 +13,15 @@ const StackNavigator = () => {
     <Stack.Navigator
       // initialRouteName=""
       screenOptions={{
-        headerShown: false,
+        // headerShown: false,
       }}
     >
       {isLoggedIn ? (
         // Якщо користувач залогінений, показуємо головний екран
-        <Stack.Screen name="Home" component={BottomTabNavigator} />
+        <Stack.Screen
+          name="Home"
+          component={BottomTabNavigator}
+        />
       ) : (
         // Якщо користувач не залогінений, показуємо екрани Login та Signup
         <>

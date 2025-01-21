@@ -15,9 +15,9 @@ const BottomTabNavigator = () => {
     <Tab.Navigator
       initialRouteName="Profile"
       screenOptions={({ navigation }) => ({
-        tabBarLabel: "",
+        tabBarLabel: "label",
         tabBarStyle: {
-          display: "flex",
+          display: 'flex',
           paddingVertical: 16,
         },
       })}
@@ -42,6 +42,7 @@ const BottomTabNavigator = () => {
         component={ProfileScreen}
         options={({ navigation }) => ({
           title: "Profile",
+          headerRightContainerStyle: { paddingRight: 8 },
           headerRight: () => (
             <LogoutButton
               onPress={() => console.log('log out')}
