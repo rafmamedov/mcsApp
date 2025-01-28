@@ -10,12 +10,12 @@ import { setUserInfo, clearUserInfo } from '../redux/reducers/userSlice';
 import { addUser, getUser } from './firestore';
 
 // Функція для реєстрації користувача
-export const registerDB = async ({ email, password }) => {
+export const registerDB = async (email, password, name) => {
   try {
     const credentials = await createUserWithEmailAndPassword(auth, email, password);
     const user = credentials.user;
 
-    await addUser(user.uid, { uid: user.uid, email: user.email || '', displayName: user.displayName || ''})
+    await addUser(user.uid, { uid: user.uid, email: user.email, name })
   } catch (error) {
     console.log('SIGNUP ERROR:', error)
   };

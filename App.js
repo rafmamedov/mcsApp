@@ -1,12 +1,14 @@
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import StackNavigator from './src/navigation/StackNavigator';
-import { Provider, useDispatch } from 'react-redux';
+import StackNavigator from './src/navigation/AuthNavigator';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store from './src/redux/store/store';
 import { useEffect } from 'react';
 import { authStateChanged } from './src/utils/auth';
+import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import AuthNavigator from './src/navigation/AuthNavigator';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -38,6 +40,7 @@ export default function App() {
 
 const AuthListener = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.userInfo);
 
   useEffect(() => {
     authStateChanged(dispatch);
@@ -45,7 +48,11 @@ const AuthListener = () => {
 
   return (
     <NavigationContainer>
-      <StackNavigator />
+      {user ? (
+        <BottomTabNavigator />
+      ) : (
+        <AuthNavigator />
+      )}
     </NavigationContainer>
   );
 };

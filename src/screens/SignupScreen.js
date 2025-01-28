@@ -5,12 +5,12 @@ import {
   Image,
   Keyboard,
   Platform,
-  Pressable,
   Dimensions,
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -21,40 +21,48 @@ import { registerDB } from "../utils/auth";
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
 const SignupScreen = ({ navigation, route }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const [isConfirmVisible, setIsConfirmVisible] = useState(true);
-  const [selectedInput, setSelelectedInput] = useState('password');
 
   const handleEmailChange = (value) => {
     setEmail(value);
+  };
+
+  const handleNameChange = (value) => {
+    setName(value);
   };
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: "Hello world!" })
   }, []);
 
-  const handlePasswordChange = (value, isPassword) => {
-    if (isPassword) {
-      setPassword(value);
-    } else {
-      setPasswordConfirm(value)
-    }
+  const handlePasswordChange = (value) => {
+    setPassword(value);
   };
 
   const showPassword = (isPassword) => {
-    if (isPassword) {
-      setIsPasswordVisible(prev => !prev);
-    } else {
-      setIsConfirmVisible(prev => !prev)
-    }
+    setIsPasswordVisible(prev => !prev);
   };
+
+  const validate = () => {
+    if (email.length < 1 && password.length < 1 && name.length < 1) return false
+
+    return true;
+  }
 
   const onSignUp = () => {
     console.log('Sign up!');
-    registerDB({ email, password })
+    const isValid = validate();
+
+    if (isValid) {
+      registerDB(email, password, name);
+    } else {
+      Alert.alert('Помилка!', 'Заповніть всі поля!', [
+        { text: 'Зрозуміло!', onPress: () => {}},
+      ])
+    }
   };
   
   const showButton = (
@@ -95,27 +103,20 @@ const SignupScreen = ({ navigation, route }) => {
                 onTextChange={handleEmailChange}
               />
 
-              <Pressable onPress={() => setSelelectedInput('password')}>
-                <Input
-                  value={password}
-                  placeholder="Пароль"
-                  rightButton={showButton}
-                  outerStyles={styles.passwordButton}
-                  onTextChange={(value) => handlePasswordChange(value, true)}
-                  secureTextEntry={isPasswordVisible}
-                />
-              </Pressable>
+              <Input
+                value={name}
+                placeholder="Ім'я"
+                onTextChange={handleNameChange}
+              />
 
-              <Pressable onPress={() => setSelelectedInput('confirm')}>
-                <Input
-                  value={passwordConfirm}
-                  placeholder="Пароль ще раз"
-                  rightButton={showButton}
-                  outerStyles={styles.passwordButton}
-                  onTextChange={(value) => handlePasswordChange(value, false)}
-                  secureTextEntry={isConfirmVisible}
-                />
-              </Pressable>
+              <Input
+                value={password}
+                placeholder="Пароль"
+                rightButton={showButton}
+                outerStyles={styles.passwordButton}
+                onTextChange={handlePasswordChange}
+                secureTextEntry={isPasswordVisible}
+              />
             </View>
 
             <View style={[styles.innerContainer, styles.buttonContainer]}>
